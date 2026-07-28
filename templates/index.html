@@ -1,91 +1,114 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Password Strength Checker</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
-  </head>
-  <body>
-    <div class="Intro">
-      <hr style="height: 4px;" color="black">
-      <h1>Welcome to Password Strength Analyzer !!</h1>
-      <hr style="height: 4px;" color="black">
+<!doctype html> 
+<html lang="en"> <head> 
+  <meta charset="utf-8"> 
+  <meta name="viewport" content="width=device-width, initial-scale=1"> 
+  <title>Password Strength Checker</title> 
+  <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}"> 
+</head>
+<body>
+    <nav class="navbar">
+        <h2>🛡 Password Strength Analyzer</h2>
+        <div class="nav-links">
+            <a href="#">Home</a>
+            <a href="#">About</a>
+        </div>
+    </nav>
+
+    <header class="intro">
+        <h1>Stay Secure</h1>
+        <p>Analyze your password strength instantly</p>
+    </header>
+
+    <div class="container">
+        <div class="card">
+            <h2>Check Password</h2>
+
+            <form method="POST">
+                <label>Username</label>
+                <input type="text" name="username" placeholder="Enter username">
+
+                <label>Password</label>
+                <input type="password" name="password" placeholder="Enter password">
+
+                <label>Generate Random Password?</label>
+
+                <div class="radio-group">
+                    <label>
+                        <input type="radio" name="generate_password" value="yes">
+                        Yes
+                    </label>
+
+                    <label>
+                        <input type="radio" name="generate_password" value="no">
+                        No
+                    </label>
+                </div>
+
+                <button type="submit">
+                    Analyze Password</button>
+            </form>
+        </div>
+
+        <div class="card">
+
+            <h2>Your Analysis</h2>
+            <h3>Basic Checks</h3>
+            
+            <p>Uppercase :
+                {{ "✅ Present" if result.contains_upper else "❌ Missing" }}
+            </p>
+
+            <p>Lowercase :
+                {{ "✅ Present" if result.contains_lower else "❌ Missing" }}
+            </p>
+
+            <p>Digit :
+                {{ "✅ Present" if result.contains_digit else "❌ Missing" }}
+            </p>
+
+            <p>Special Character :
+                {{ "✅ Present" if result.contains_special else "❌ Missing" }}
+            </p>
+
+            <hr>
+
+            <p><strong>Length:</strong> {{ result.length }}</p>
+
+            <p><strong>Entropy:</strong> {{ result.entropy }}</p>
+
+            <p><strong>Score:</strong> {{ result.score }}</p>
+
+            <p>{{ result.Passwordscore_suggestion }}</p>
+
+            <hr>
+
+            <h3>Suggestions</h3>
+
+            <p>{{ result.suggestion }}</p>
+
+            <hr>
+
+            <h3>Security Checks</h3>
+
+            <p>
+                {{ "❌ Username Found" if result.username_found else "✅ Username Not Found" }}
+            </p>
+
+            <p>
+                {{ "❌ Repetition Found" if result.repeated else "✅ No Repetition" }}
+            </p>
+
+        </div>
+
     </div>
 
+    <div class="generator">
 
-    <div class="P_Search">
-      <form method="POST">
-        <p>Enter your password:</p>
-        <input type="password" name="password" placeholder="Enter your password" aria-label="Enter your password"/>
-      <p>Enter your username:</p>
-      <input type="text" name="username" placeholder="Enter Your Username"/><br>
-      <p>Do you want a Random Generated Password ?</p>
-      <input type="radio" id="yes" name="generate_password" value="yes">
-      <label for="yes">Yes</label>
-      <input type="radio" id="no" name="generate_password" value="no">
-      <label for="no">No</label><br>
-      <button class="sub" type="submit">Analyze</button>  
-      </form>
-      </div>
+        <h2>🎲 Random Password</h2>
 
-      <div class="result">
-        <hr style="height: 4px;" color="black">
-        <h1 class="output">Your Analysis.....</h1>
-        <hr style="height: 4px;" color="black">
+        <p>{{ result.generated_password }}</p>
 
-        <div class="basic_n">
-          <hr>
-          <h2>Basic Password Necessity</h2>
-          <hr>
-          <p>Uppercase Charaters : {{ "✅ Present" if result.contains_upper else "❌ Missing"}}</p><br>
-          <p>Lowercase Charaters : {{"✅ Present" if result.contains_lower else "❌ Missing"}}</p><br>
-          <p>Digit : {{"✅ Present" if result.contains_digit else "❌ Missing"}}</p><br>
-          <p>Special Charaters : {{"✅ Present" if result.contains_special else "❌ Missing"}}</p><br>
+    </div>
 
-          <hr>
-          <h2>Total length of your Password</h2>
-          <hr>
-          <p>Length:{{result.length}}</p><br>
-
-          <hr>
-          <h2>Entropy Measurer</h2>
-          <hr>
-          <p>Password entropy measures how unpredictable and therefore un-guessable a password is, expressed in bits</p>
-          <p>Entropy:{{result.entropy}}</p><br>
-          
-          <hr>
-          <h2>A Proposer for Better Password !!</h2>
-          <hr>
-          <p>Suggestion:{{result.suggestion}}</p><br>
-          
-          <hr>
-          <h2>Password Scorer !!</h2>
-          <hr>
-          <p>Score of your Password(1-10) based on Security level(Higher Score = Better Password)</p>
-          <p>Score:{{result.score}}</p><br>
-          <p>{{result.Passwordscore_suggestion}}</p><br>
-
-          <hr>
-          <h2>Repetition Detector !!</h2>
-          <hr>
-          <p>Repetition makes passwords vulnerable because it drastically reduces the number of possible character combinations, making them much easier for hackers to guess</p>
-          <p>{{"❌ Repetition Detected" if result.repeated else "✅ No Repetition Detected"}}</p><br>
-
-          <hr>
-          <h2>Username Detector !!</h2>
-          <hr>
-          <p>Using your username, in your password makes it weak because a username is usually public knowledge</p>
-          <p>{{"❌ Username Detected" if result.username_found else "✅ No Username Detected"}}</p><br>
-
-          <hr>
-          <h2>Random Password Generator !!</h2>
-          <hr>
-          <p>Random Password : {{result.generated_password}}</p><br>
-        </div>
-      </div>
-
-
-  </body>
+</body>
 </html>
-
