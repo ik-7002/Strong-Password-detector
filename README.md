@@ -29,6 +29,6 @@ Future Improvements
 7. Export analysis report
 8. Common password dictionary detection
 
-Author 
+Author :
 Inu Khunger
 https://github.com/ik-7002
