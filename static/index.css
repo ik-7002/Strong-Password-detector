@@ -147,23 +147,13 @@ hr{
 @media(max-width:900px){
 
 .container{
-
     flex-direction:column;
-
 }
-
 .card{
-
     width:100%;
-
 }
-
 .navbar{
-
     flex-direction:column;
-
     gap:15px;
-
 }
-
 }
