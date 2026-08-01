@@ -4,7 +4,7 @@ from analyzer import analyze_password
 app=Flask(__name__)
 
 @app.route('/',methods=['GET','POST'])
-def hello_world():
+def Password_generator():
 
     result=None
 
