@@ -1,4 +1,4 @@
-🛡 Password Strength Analyzer
+🛡 Password Strength Analyzer<br>
 A Flask-based web application that analyzes password strength using multiple security checks and provides Suggestion.
 
 Preview
